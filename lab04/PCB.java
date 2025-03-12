@@ -5,16 +5,23 @@ public class PCB {
 	// the representation of each process
 	private String name; // process name
 	private int id; // process id
+	private int totalCpuBurstTime = 0;
+	private int totalIoBurstTime = 0;
 	private int arrivalTime; // arrival time of the process
-	private int[] cpuBurst; // CPU burst length in unit time
+	private ArrayList<Integer> cpuBurst = new ArrayList<>(); // Array of CPU burst lengths in unit time
+	private int currCpuBurst;
 	private int priority; // priority level of the process
-	private int[] ioBurst; //IO burst length in unit time
+	private ArrayList<Integer> ioBurst  = new ArrayList<>(); // Array of IO burst lengths in unit time
+	private int currIoBurst;
 	// the statistics of process execution
 	private int startTime, finishTime, turnaroundTime, waitingTime;
 
 	// constructor
-	public PCB(String name, int id, int arrivalTime, ArrayList<Integer> cpuBurst, int priority, ArrayList<Integer> ioBurst) {
+	public PCB(String name, int id, int arrivalTime, int priority, ArrayList<Integer> cpuBurst, ArrayList<Integer> ioBurst) {
 		super();
+		//New variables used to track the current burst times for CPU and IO
+		this.currCpuBurst = cpuBurst.get(0); 
+		this.currIoBurst = ioBurst.get(0);
 		this.name = name;
 		this.id = id;
 		this.arrivalTime = arrivalTime;
@@ -23,6 +30,14 @@ public class PCB {
 		this.ioBurst = ioBurst;
 		this.startTime = -1;
 		this.finishTime = -1;
+		
+		// Calculates total CPU and IO burst times;
+		for(int value : cpuBurst) {
+			totalCpuBurstTime += value;
+		}
+		for(int value : ioBurst) {
+			totalIoBurstTime += value;
+		}
 	}
 
 	public String getName() {
@@ -49,12 +64,24 @@ public class PCB {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public int[] getCpuBurst() {
-		return cpuBurst;
+	//Gets current CPU burst time
+	public int getCpuBurst() {
+		return currCpuBurst;
+	}
+	
+	//Gets total CPU Burst Time
+	public int getTotalCpuBurstTime() {
+		return totalCpuBurstTime;
+	}
+	
+	//Gets total Io Burst Time
+	public int getTotalIoBurstTime() {
+		return totalIoBurstTime;
 	}
 
-	public void setCpuBurst(int[] cpuBurst) {
-		this.cpuBurst = cpuBurst;
+	//Changes current CPU burst time
+	public void setCpuBurst(int cpuBurst) {
+		currCpuBurst = cpuBurst;
 	}
 
 	public int getPriority() {
@@ -65,12 +92,14 @@ public class PCB {
 		this.priority = priority;
 	}
 
-	public int[] getIoBurst() {
-		return ioBurst;
+	//Gets current IO burst time
+	public int getIoBurst() {
+		return currIoBurst; 
 	}
 
-	public void setIoBurst(int[] ioBurst) {
-		this.ioBurst = ioBurst;
+	//Changes current IO burst time
+	public void setIoBurst(int ioBurst) {
+		currIoBurst = ioBurst;
 	}
 
 	public int getStartTime() {
@@ -113,7 +142,7 @@ public class PCB {
 
 	public String toString() {
 		return "Process [name=" + name + ", id=" + id
-				+ ", arrivalTime=" + arrivalTime + ", cpuBurst=" + cpuBurst
+				+ ", arrivalTime=" + arrivalTime + ", cpuBurst=" + currCpuBurst //Changed to represent current burst
 				+ ", priority=" + priority + "]";
 	}
 
