@@ -5,13 +5,23 @@ import java.util.*;
 public class Driver {
 
 	public static void main(String[] args) throws FileNotFoundException{
-		Scanner sc = new Scanner(new File("src/proc.txt"));
-		String alg = sc.nextLine(); //read the selected algorithm,
+		//Scanner sc = new Scanner(new File("src/proc.txt"));		
+		Scanner paramScanner = new Scanner(System.in);
+		System.out.println("Enter the file path of desired scenario file followed by scheduling parameters");
+		System.out.println("Please enter null for unused parameters");
+		System.out.println("Format: src/example.txt algorithm quantumTime runningMode");
+		String[] params = paramScanner.nextLine().split(", ");
+		String filePath = params[0];
+		String alg = params[1]; //read the selected algorithm,
+		String quantumTime = params[2];
+		String runningMode = params[3];
+		Scanner sc = new Scanner(new File(filePath));	
+
+		
 		String line;
 		int id = 0;
 		ArrayList<PCB> allProcs = new ArrayList<>(); //list of processes
 		ArrayList<Integer> cpuBurstTime = new ArrayList<>();
-		ArrayList<Integer> emptyList = new ArrayList<>();
 		ArrayList<Integer> ioBurstTime = new ArrayList<>();
 		
 		while (sc.hasNextLine()) {
@@ -38,14 +48,6 @@ public class Driver {
 			//int[] ioBurst = 0;//Change, should not be 0
 			PCB proc = new PCB(name, id++, arrivalTime, priority, cpuBurstTime, ioBurstTime);
 			allProcs.add(proc);
-			System.out.println("CPU burst array, followed by IO burst array, should be properly intizalized to the following values:");
-			for(int value : cpuBurstTime) {
-				System.out.print(value + " ");
-			}
-			System.out.println();
-			for(int value : ioBurstTime) {
-				System.out.print(value + " ");
-			}
 			System.out.println();
 		}
 		

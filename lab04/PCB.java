@@ -13,6 +13,8 @@ public class PCB {
 	private int priority; // priority level of the process
 	private ArrayList<Integer> ioBurst  = new ArrayList<>(); // Array of IO burst lengths in unit time
 	private int currIoBurst;
+	private int cpuIndex; // Keeps track of CPU burst index;
+	private int ioIndex; // Keeps track of IO burst index;
 	// the statistics of process execution
 	private int startTime, finishTime, turnaroundTime, waitingTime;
 
@@ -20,8 +22,8 @@ public class PCB {
 	public PCB(String name, int id, int arrivalTime, int priority, ArrayList<Integer> cpuBurst, ArrayList<Integer> ioBurst) {
 		super();
 		//New variables used to track the current burst times for CPU and IO
-		this.currCpuBurst = cpuBurst.get(0); 
-		this.currIoBurst = ioBurst.get(0);
+		this.currCpuBurst = cpuBurst.get(cpuIndex); 
+		this.currIoBurst = ioBurst.get(ioIndex);
 		this.name = name;
 		this.id = id;
 		this.arrivalTime = arrivalTime;
@@ -30,6 +32,8 @@ public class PCB {
 		this.ioBurst = ioBurst;
 		this.startTime = -1;
 		this.finishTime = -1;
+		this.cpuIndex = 0;
+		this.ioIndex = 0;
 		
 		// Calculates total CPU and IO burst times;
 		for(int value : cpuBurst) {
@@ -77,6 +81,29 @@ public class PCB {
 	//Gets total Io Burst Time
 	public int getTotalIoBurstTime() {
 		return totalIoBurstTime;
+	}
+	
+	public void setTotalCpuBurstTime(int value) {
+		totalCpuBurstTime = value;
+	}
+	
+	public boolean endOfCpuBurstArray() {
+		return cpuIndex == cpuBurst.size();
+	}
+	
+	//Gets total IO Burst Time
+	public void setTotalIoBurstTime(int value) {
+		totalIoBurstTime = value;
+	}
+	
+	public ArrayList<Integer> getCpuBurstArray(){
+		return cpuBurst;
+	}
+	
+	public int getNextCpuBurst() {
+		cpuIndex += 1;
+		return cpuBurst.get(cpuIndex); 
+		
 	}
 
 	//Changes current CPU burst time
