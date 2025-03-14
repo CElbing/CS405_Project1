@@ -1,12 +1,13 @@
 package lab04;
 import java.util.*;
 public abstract class SchedulingAlgorithm {
-    protected String name;		      //scheduling algorithm name
+      protected String name;		      //scheduling algorithm name
 	protected List<PCB> allProcs;		//the initial list of processes
 	protected List<PCB> readyQueue;	//ready queue of ready processes
 	protected List<PCB> finishedProcs;	//list of terminated processes
 	protected PCB curProcess; //current selected process by the scheduler
 	protected int systemTime; //system time or simulation time steps
+	protected boolean manualMode = false;
  
       public SchedulingAlgorithm(String name, List<PCB> queue) {
     	      this.name = name;
@@ -14,6 +15,10 @@ public abstract class SchedulingAlgorithm {
     	      this.readyQueue = new ArrayList<>();
     	      this.finishedProcs = new ArrayList<>();
       }
+      
+    public void setManualMode(boolean mode) {
+    	this.manualMode = mode;
+    }
 	
 	public void schedule() {
 		//- Print the name of the scheduling algorithm
@@ -43,17 +48,22 @@ public abstract class SchedulingAlgorithm {
 		//   - Increase systemTime by 1
 			systemTime += 1;
 		//    - Check if the remaining CPU burst of curProcess = 0
-			if(curProcess.getCpuBurst()[0] == 0) {
+			if(curProcess.getCpuBurst() == 0) {
 		//        - Update finishTime of curProcess
-				curProcess.setFinishTime(systemTime);
-		//        - remove curProcess from readyQueue
-				readyQueue.remove(curProcess);
-		//        - add curProcess to the finished queue (finishedProcs)
-				finishedProcs.add(curProcess);
-		//        - Print to the console a message displaying the process name, terminated time, 
-		//                                               startTime, turnaroundTime, waitingTime
-				System.out.println("Procces ");
-		//    - Print a new line
+					curProcess.setFinishTime(systemTime);
+					//        - remove curProcess from readyQueue
+							readyQueue.remove(curProcess);
+					//        - add curProcess to the finished queue (finishedProcs)
+							finishedProcs.add(curProcess);
+					//        - Print to the console a message displaying the process name, terminated time, 
+					//                                               startTime, turnaroundTime, waitingTime
+							System.out.println("Process Complete");
+					//    - Print a new line
+			}
+			
+			if(manualMode == true) {
+				System.out.println("Press Enter to continue...");
+				new Scanner(System.in).nextLine();
 			}
 		}
 	

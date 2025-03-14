@@ -8,13 +8,20 @@ public class Driver {
 		//Scanner sc = new Scanner(new File("src/proc.txt"));		
 		Scanner paramScanner = new Scanner(System.in);
 		System.out.println("Enter the file path of desired scenario file followed by scheduling parameters");
-		System.out.println("Please enter null for unused parameters");
-		System.out.println("Format: src/example.txt algorithm quantumTime runningMode");
-		String[] params = paramScanner.nextLine().split(", ");
-		String filePath = params[0];
-		String alg = params[1]; //read the selected algorithm,
-		String quantumTime = params[2];
-		String runningMode = params[3];
+		String filePath = paramScanner.nextLine();
+		
+		System.out.println("Choose scheduling algoritm (FCFS, PS, SJF, RR)");
+		String alg = paramScanner.nextLine();
+		
+		if(alg == "RR") {
+			System.out.println("Enter quantum time:");
+			int quantumTime = paramScanner.nextInt();
+		}
+		
+		System.out.println("Choose running mode number (0 = auto, 1 = manual)");
+		int runningMode = paramScanner.nextInt();
+		
+		
 		Scanner sc = new Scanner(new File(filePath));	
 
 		
@@ -67,8 +74,15 @@ public class Driver {
 			scheduler = new FCFS(allProcs);
 			break;
 		}
+		if(runningMode == 1) {
+			scheduler.setManualMode(true);
+		}
+		else {
+			scheduler.setManualMode(false);
+		}
 		scheduler.schedule();
 		sc.close();
+		paramScanner.close();
 	}
 
 }
