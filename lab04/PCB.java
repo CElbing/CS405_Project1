@@ -42,7 +42,9 @@ public class PCB {
 	}
 
 	public void setIndex(int i){
-		this.index = i;
+		if(index >= 0 && index < bursts.size()-1) {
+			this.index = i;
+		}
 	}
 
 	public ArrayList<Integer> getBurstArray(){

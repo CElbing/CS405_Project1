@@ -51,7 +51,7 @@ public class VirtualIO {
     public void executeIO(){ // executes the io operation
         if(currentProcess != null){
             currentProcess.setBurst(currentProcess.getBurst() - 1);
-            if(currentProcess.getBurst() == 0){
+            if(currentProcess.getBurst() <= 0){
                 //currentProcess = null;
                 currentProcess.setIndex(currentProcess.getIndex() + 1);
                 finishedQueue.add(currentProcess);
@@ -62,7 +62,7 @@ public class VirtualIO {
     }
 
     public boolean isIdle(){ //public getter for status
-        return currentProcess == null;
+        return ioQueue.isEmpty();
     }
 
 }

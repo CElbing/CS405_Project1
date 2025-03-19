@@ -50,11 +50,12 @@ public abstract class SchedulingAlgorithm {
 			if (!readyQueue.isEmpty()) {
 				curProcess = pickNextProcess();
 			}
-
 			if(vIO.availableProcs() == true){
-				allProcs.add(vIO.getReadyProcess());
+				PCB ioProc = vIO.getReadyProcess();
+			    if (!finishedProcs.contains(ioProc) && ioProc.getBurst() > 0) {
+			        readyQueue.add(ioProc);
+			    }
 			}
-
 			// - call print() to print simulation events: CPU, ready queue, ..
 			print();
 			// - update the start time of the selected process (curProcess)
@@ -67,6 +68,9 @@ public abstract class SchedulingAlgorithm {
 			if (curProcess.getIndex() % 2 == 0) {
 				CPU.execute(curProcess, 1);
 			}
+			if(readyQueue.isEmpty()) {
+				curProcess = null;
+			}
 			// - Increase 1 to the waiting time of other processes in the ready queue
 			for (PCB proc : readyQueue)
 				if (proc != curProcess)
@@ -75,21 +79,16 @@ public abstract class SchedulingAlgorithm {
 			systemTime += 1;
 			// - Check if the remaining CPU burst of curProcess = 0
 			if (curProcess.getBurst() <= 0) {
-				if (curProcess.getIndex() < curProcess.getBurstArray().size()) {
-					if (curProcess.getIndex() % 2 == 1) {
-						readyQueue.add(curProcess);
-					} else {
-						readyQueue.remove(curProcess);
-						vIO.addProcess(curProcess);
-					}
-					// Increment index
+				if (curProcess.getIndex() < curProcess.getBurstArray().size()-1) {
 					curProcess.setIndex(curProcess.getIndex() + 1);
+					readyQueue.remove(curProcess);
+					vIO.addProcess(curProcess);
 				}
-
-				if (curProcess.getIndex() >= curProcess.getBurstArray().size()) {
+				else{
 					curProcess.setFinishTime(systemTime);
 					// Add to finished procs
 					finishedProcs.add(curProcess);
+					readyQueue.remove(curProcess);
 					System.out.println("Process " + curProcess.getId() + " is complete");
 				}
 			}
@@ -108,11 +107,12 @@ public abstract class SchedulingAlgorithm {
 	public void print() {
 		// add code to complete the method
 		System.out.println("CPU " + ((curProcess == null) ? "idle" : curProcess.getName()));
-		for (PCB proc : readyQueue)
-			System.out.println(proc);
+			for (PCB proc : readyQueue)
+				System.out.println(proc);
+			
 		System.out.println("IO " + ((vIO.getProcess() == null) ? "idle" : vIO.getProcess().getName()));
-		for (PCB proc : vIO.getQueue()) {
-			System.out.println(proc);
+			for (PCB proc : vIO.getQueue()) {
+				System.out.println(proc);
 		}
 	}
 }
