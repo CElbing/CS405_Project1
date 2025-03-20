@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class Driver {
-	@SuppressWarnings("unused")
 	public static void main(String[] args) throws FileNotFoundException {
+		int quantumTime = 0;
 		// Scanner sc = new Scanner(new File("src/proc.txt"));
 		Scanner paramScanner = new Scanner(System.in);
 		System.out.println("Enter the file path of desired scenario file followed by scheduling parameters");
@@ -16,7 +16,7 @@ public class Driver {
 
 		if (alg.equals("RR")) {
 			System.out.println("Enter quantum time:");
-			int quantumTime = paramScanner.nextInt();
+			quantumTime = paramScanner.nextInt();
 		}
 
 		System.out.println("Choose running mode number (0 = auto, 1 = manual)");
@@ -52,6 +52,8 @@ public class Driver {
 		// ready to simulate the scheduling of those processes.
 		SchedulingAlgorithm scheduler = null;
 		switch (alg) {
+			case "RR":
+				scheduler = new RoundRobin(allProcs, quantumTime);
 			case "FCFS":
 				scheduler = new FCFS(allProcs);
 				break;

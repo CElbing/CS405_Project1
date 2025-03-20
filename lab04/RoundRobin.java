@@ -20,14 +20,14 @@ public class RoundRobin extends SchedulingAlgorithm{
             if(process.getStartTime() < 0)
                 process.setStartTime(systemTime);
             
-            execTime = Math.min(quantum, process.getCpuBurst()[0]);
+            execTime = Math.min(quantum, process.getBurst());
             CPU.execute(process, execTime);
             systemTime += execTime;
 
             for(PCB proc: queue)
                 proc.increaseWaitingTime(execTime);
             
-            if(process.getCpuBurst()[0] > 0)
+            if(process.getBurst() > 0)
                 queue.add(process);
             else{
                 process.setFinishTime(systemTime);

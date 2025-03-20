@@ -9,7 +9,7 @@ public abstract class SchedulingAlgorithm {
 	// protected List<PCB> waitQueue;
 	protected List<PCB> finishedProcs; // list of terminated processes
 	protected VirtualIO vIO;
-	protected PCB curProcess; // current selected process by the scheduler
+	protected static PCB curProcess; // current selected process by the scheduler
 	protected static int systemTime; // system time or simulation time steps
 	protected boolean manualMode = false;
 
@@ -47,30 +47,36 @@ public abstract class SchedulingAlgorithm {
 			allProcs.removeAll(readyQueue);
 			// - curProcess = pickNextProcess() //call pickNextProcess() to choose next
 			// process
-			if (!readyQueue.isEmpty()) {
+			
+			if(!readyQueue.isEmpty()){
 				curProcess = pickNextProcess();
 			}
+
 			if(vIO.availableProcs() == true){
 				PCB ioProc = vIO.getReadyProcess();
 			    if (!finishedProcs.contains(ioProc) && ioProc.getBurst() > 0) {
 			        readyQueue.add(ioProc);
+					vIO.getFinishedQueue().remove(ioProc);
 			    }
 			}
 			// - call print() to print simulation events: CPU, ready queue, ..
 			print();
 			// - update the start time of the selected process (curProcess)
-			if (curProcess.getStartTime() < 0)
-				curProcess.setStartTime(systemTime);
+			if (curProcess != null){
+				if (curProcess.getStartTime() < 0)
+					curProcess.setStartTime(systemTime);
+			}
 			// - Call CPU.execute() to let the CPU execute 1 CPU unit time of curProcess
 			if (!vIO.isIdle()) {
-				vIO.executeIO();
+				VirtualIO.executeIO();
 			}
-			if (curProcess.getIndex() % 2 == 0) {
-				CPU.execute(curProcess, 1);
+
+			if(curProcess != null){
+				if(!readyQueue.isEmpty()){
+					CPU.execute(curProcess, 1);
+				}
 			}
-			if(readyQueue.isEmpty()) {
-				curProcess = null;
-			}
+
 			// - Increase 1 to the waiting time of other processes in the ready queue
 			for (PCB proc : readyQueue)
 				if (proc != curProcess)
@@ -78,7 +84,8 @@ public abstract class SchedulingAlgorithm {
 			// - Increase systemTime by 1
 			systemTime += 1;
 			// - Check if the remaining CPU burst of curProcess = 0
-			if (curProcess.getBurst() <= 0) {
+			if(curProcess != null){
+			if (curProcess.getBurst() == 0){
 				if (curProcess.getIndex() < curProcess.getBurstArray().size()-1) {
 					curProcess.setIndex(curProcess.getIndex() + 1);
 					readyQueue.remove(curProcess);
@@ -92,13 +99,17 @@ public abstract class SchedulingAlgorithm {
 					System.out.println("Process " + curProcess.getId() + " is complete");
 				}
 			}
+		}
 
 			if (manualMode == true) {
 				System.out.println("Press Enter to continue...");
 				new Scanner(System.in).nextLine();
 			}
 		}
+		System.out.println();
+		System.out.println("All processes have been completed!");
 	}
+	
 
 	// Selects the next task using the appropriate scheduling algorithm
 	public abstract PCB pickNextProcess();
@@ -106,13 +117,24 @@ public abstract class SchedulingAlgorithm {
 	// print simulation step
 	public void print() {
 		// add code to complete the method
-		System.out.println("CPU " + ((curProcess == null) ? "idle" : curProcess.getName()));
+		System.out.println();;
+		System.out.println("╔═╗╔═╗╦ ╦");
+		System.out.println("║  ╠═╝║ ║");
+		System.out.println("╚═╝╩  ╚═╝: " + ((curProcess == null) ? "idle" : curProcess.getName()) + "\n");
 			for (PCB proc : readyQueue)
 				System.out.println(proc);
-			
-		System.out.println("IO " + ((vIO.getProcess() == null) ? "idle" : vIO.getProcess().getName()));
-			for (PCB proc : vIO.getQueue()) {
+
+		System.out.println();
+
+		System.out.println("╦╔═╗");
+		System.out.println("║║ ║");
+		System.out.println("╩╚═╝: " + ((vIO.getProcess() == null) ? "idle" : vIO.getProcess().getName()) + "\n");
+			for (PCB proc : vIO.getQueue()) 
 				System.out.println(proc);
-		}
+
+		System.out.println();
+		System.out.println("<===========================================================================>");
+		System.out.println();
 	}
+	
 }

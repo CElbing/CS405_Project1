@@ -10,7 +10,7 @@ public class SJF extends SchedulingAlgorithm {
 
       public PCB pickNextProcess() {
    //Sort the ready queue in asc order of CPU burst
-   	Collections.sort(readyQueue, (pcb1,pcb2) -> pcb1.getCpuBurst()[0] - pcb2.getCpuBurst()[0]);
+   	Collections.sort(readyQueue, (pcb1,pcb2) -> pcb1.getBurst() - pcb2.getBurst());
 		return readyQueue.get(0); // First one now has the smallest CPU burst. 
       }
 }
