@@ -1,4 +1,5 @@
 package lab04;
+
 import java.util.*;
 
 public class PCB {
@@ -6,16 +7,18 @@ public class PCB {
 	private String name; // process name
 	private int id; // process id
 	private int arrivalTime; // arrival time of the process
-	private ArrayList<Integer> bursts= new ArrayList<>(); // Array of CPU burst lengths in unit time
+	private ArrayList<Integer> bursts = new ArrayList<>(); // Array of CPU burst lengths in unit time
 	private int priority; // priority level of the process
 	private int index; // Keeps track of IO burst index;
 	// the statistics of process execution
+	private String state;
+	private int ioWaitingTime;
 	private int startTime, finishTime, turnaroundTime, waitingTime;
 
 	// constructor
 	public PCB(String name, int id, int arrivalTime, int priority, ArrayList<Integer> bursts) {
 		super();
-		//New variables used to track the current burst times for CPU and IO
+		// New variables used to track the current burst times for CPU and IO
 		this.name = name;
 		this.id = id;
 		this.arrivalTime = arrivalTime;
@@ -24,30 +27,32 @@ public class PCB {
 		this.startTime = -1;
 		this.finishTime = -1;
 		this.bursts = bursts;
+		this.ioWaitingTime = 0;
+		this.state = "";
 	}
 
-	public int getBurst(){
-		if(index >= 0 && index < bursts.size())
+	public int getBurst() {
+		if (index >= 0 && index < bursts.size())
 			return bursts.get(index);
 		else
 			return 0;
 	}
 
-	public void setBurst(int curBurst){
+	public void setBurst(int curBurst) {
 		bursts.set(index, curBurst);
 	}
 
-	public int getIndex(){
+	public int getIndex() {
 		return this.index;
 	}
 
-	public void setIndex(int i){
-		if(index >= 0 && index < bursts.size()-1) {
+	public void setIndex(int i) {
+		if (index >= 0 && index < bursts.size() - 1) {
 			this.index = i;
 		}
 	}
 
-	public ArrayList<Integer> getBurstArray(){
+	public ArrayList<Integer> getBurstArray() {
 		return this.bursts;
 	}
 
@@ -74,7 +79,7 @@ public class PCB {
 	public void setArrivalTime(int arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
-	
+
 	public int getPriority() {
 		return priority;
 	}
@@ -116,14 +121,34 @@ public class PCB {
 		this.waitingTime = waitingTime;
 	}
 
+	public int getIOWaitingTime() {
+		return ioWaitingTime;
+	}
+
+	public void setIOWaitingTime(int waitingTime) {
+		this.ioWaitingTime = waitingTime;
+	}
+
 	public void increaseWaitingTime(int burst) {
 		// Increase the waitingTime variable with burst.
 		this.waitingTime += burst;
 	}
 
+	public void increaseIOWaitingTime(int burst) {
+		this.ioWaitingTime += burst;
+	}
+
+	public String getState() {
+		return this.state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public String toString() {
-		return "Process [name=" + name + ", id=" + id
-				+ ", arrivalTime=" + arrivalTime + ", burst=" + bursts.get(index) //Changed to represent current burst
+		return "Process [name=" + name + ", id=" + id + ", state= " + state
+				+ ", arrivalTime=" + arrivalTime + ", burst=" + bursts.get(index) // Changed to represent current burst
 				+ ", priority=" + priority + "]";
 	}
 

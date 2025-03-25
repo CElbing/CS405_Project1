@@ -32,10 +32,10 @@ public class Driver {
 			bursts.clear(); // resets array list
 
 			line = sc.nextLine(); // read a line from the file
-			String[] arr = line.split(",");
+			String[] arr = line.split(" ");
 			String name = arr[0];
-			int arrivalTime = Integer.parseInt(arr[1].trim());
-			int priority = Integer.parseInt(arr[2].trim());
+			int priority = Integer.parseInt(arr[1].trim());
+			int arrivalTime = Integer.parseInt(arr[2].trim());
 
 			// Current issue is that all the CPU burst times exist in one
 			// array rather than one array per process.
