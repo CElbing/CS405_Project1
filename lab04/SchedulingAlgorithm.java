@@ -27,6 +27,7 @@ public abstract class SchedulingAlgorithm {
 	protected double cpuUtilization = 0.0;
 	protected double throughput = 0.0;
 	protected int cpuIdleTime = 0;
+	protected long responseTime;
 
 	protected Scanner sc = new Scanner(System.in);
 
@@ -51,6 +52,7 @@ public abstract class SchedulingAlgorithm {
 
 	@SuppressWarnings("resource")
 	public void schedule() {
+		long startResponseTime = System.currentTimeMillis();
 		// - Print the name of the scheduling algorithm
 		System.out.println("Scheduling algorithm: " + name);
 		logWriter.println("Scheduling algorithm: " + name);
@@ -186,12 +188,15 @@ public abstract class SchedulingAlgorithm {
 		avgWT = (double) totalWT/finishedProcs.size();
 		throughput = (double) finishedProcs.size()/systemTime;
 		cpuUtilization = (double) (systemTime - cpuIdleTime)/systemTime;
+		long endResponseTime = System.currentTimeMillis();
+		responseTime = endResponseTime - startResponseTime;
 
 		System.out.println("Simulation Metric Summary: \n-----------------");
 		System.out.println("AVG TAT = " + avgTAT);
 		System.out.println("AVG WT = " + avgWT);
 		System.out.println("Throughput = " + throughput);
 		System.out.println("CPU Utilization = " + cpuUtilization + "%");
+		System.out.println("Response Time = " + responseTime);
 
 		logWriter.println();
 		logWriter.println("All processes have been completed. \nSystem time: " + systemTime);
@@ -201,11 +206,19 @@ public abstract class SchedulingAlgorithm {
 		logWriter.println("AVG WT = " + avgWT);
 		logWriter.println("Throughput = " + throughput);
 		logWriter.println("CPU Utilization = " + cpuUtilization + "%");
+		logWriter.println("Response Time = " + responseTime);
 		File logFile = new File("simulationResults.txt");
 
 		System.out.println();
+		String saveResults = "";
 		System.out.println("Would you like to save the execution logs and system performance metrics for this simulation? [Y/N]");
-		String saveResults = sc.nextLine();
+		System.out.print("");
+		do{
+			System.out.print("Please enter [Y/N]: ");
+			saveResults = sc.nextLine();
+		}while(saveResults.equals("") || (!saveResults.equals("Y") && !saveResults.equals("N")));
+		
+		
 
 		if(saveResults.equals("Y")){
 			System.out.println("File succesfully saved as: " + logFile);
