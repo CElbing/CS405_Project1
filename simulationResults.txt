@@ -1,5 +1,5 @@
 Scheduling algorithm: FCFS
-2025-03-25T17:40:38.210106900
+2025-03-25T17:52:21.185123
 
 New process created: Process [name=penguin, id=0, state= NEW, arrivalTime=2, burst=2, priority=2]
 System time: 0
@@ -31,149 +31,13 @@ System time: 3
 Process added to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
 System time: 4
 
-Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=3, priority=2]
-System time: 6
-
-Process dispatching to CPU: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2]
-System time: 6
-
-Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=4, priority=2]
-System time: 8
-
-Process added to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=5, priority=6]
-System time: 8
-
-Process dispatching to CPU: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=2, priority=2]
-System time: 8
-
-Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=5, priority=2]
-System time: 10
-
-Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2]
-System time: 10
-
-Process dispatching to CPU: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
-System time: 10
-
-Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=7, priority=1]
-System time: 13
-
-Process dispatching to CPU: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=5, priority=6]
-System time: 13
-
-Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2]
-System time: 14
-
-Process entering IO: Process [name=tiger, id=4, state= WAITING, arrivalTime=8, burst=1, priority=6]
-System time: 18
-
-Process dispatching to CPU: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2]
-System time: 18
-
-Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=9, priority=2]
-System time: 19
-
-Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=5, priority=2]
-System time: 20
-
-Process dispatching to CPU: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2]
-System time: 20
-
-Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=1, priority=2]
-System time: 23
-
-Process dispatching to CPU: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=9, priority=2]
-System time: 23
-
-Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1]
-System time: 26
-
-Process completed IO returning to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6]
-System time: 27
-
-Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=2, priority=2]
-System time: 32
-
-Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2]
-System time: 32
-
-Process dispatching to CPU: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1]
-System time: 32
-
-Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=8, priority=2]
-System time: 33
-
-Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2]
-System time: 35
-
-Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=8, priority=1]
-System time: 43
-
-Process dispatching to CPU: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6]
-System time: 43
-
-Process terminated: Process [name=tiger, id=4, state= TERMINATED, arrivalTime=8, burst=0, priority=6]
-Metrics 
--------------- 
-TAT: 44 
-CPU WT: 21 
-IO WT:9 
-Finish Time: 52
-
-Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
-System time: 52
-
-Process dispatching to CPU: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2]
-System time: 52
-
-Process terminated: Process [name=zebra, id=3, state= TERMINATED, arrivalTime=1, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 58 
-CPU WT: 28 
-IO WT:16 
-Finish Time: 59
-
-Process dispatching to CPU: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=8, priority=2]
-System time: 59
-
-Process terminated: Process [name=penguin, id=0, state= TERMINATED, arrivalTime=2, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 65 
-CPU WT: 36 
-IO WT:16 
-Finish Time: 67
-
-Process dispatching to CPU: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2]
-System time: 67
-
-Process terminated: Process [name=lion, id=1, state= TERMINATED, arrivalTime=3, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 67 
-CPU WT: 41 
-IO WT:12 
-Finish Time: 70
-
-Process dispatching to CPU: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
-System time: 70
-
-Process terminated: Process [name=catfish, id=2, state= TERMINATED, arrivalTime=4, burst=0, priority=1]
-Metrics 
--------------- 
-TAT: 69 
-CPU WT: 30 
-IO WT:22 
-Finish Time: 73
-
 All processes have been completed. 
-System time: 73
+System time: 5
 
 Simulation Metric Summary: 
 -----------------
-AVG TAT = 60.6
-AVG WT = 31.2
-Throughput = 0.0684931506849315
-CPU Utilization = 0.9863013698630136%
-Response Time = 156
+AVG TAT = NaN
+AVG WT = NaN
+Throughput = 0.0
+CPU Utilization = 0.8%
+Response Time = 2971

@@ -15,7 +15,9 @@ public abstract class SchedulingAlgorithm {
 	protected static PCB prevProcess; // previous process ran by the scheduler
 	protected static int systemTime; // system time or simulation time steps
 	protected boolean manualMode = false;
+	protected boolean termSim = false;
 	protected int quantum;
+	protected Scanner manualSc;
 
 	protected boolean enableLogging = true;
 	protected PrintWriter logWriter;
@@ -60,6 +62,9 @@ public abstract class SchedulingAlgorithm {
 
 		// - while (allProcs is not empty or readyQueue is not empty) {
 		while (!allProcs.isEmpty() || !readyQueue.isEmpty() || !vIO.isIdle() || !vIO.getFinishedQueue().isEmpty()) {
+			if(termSim == true){
+				break;
+			}
 			// - Print the current system time
 			System.out.println("System time: " + systemTime);
 			// - Move arrived processes from allProcs to readyQueue (arrivalTime =
@@ -177,7 +182,11 @@ public abstract class SchedulingAlgorithm {
 
 			if (manualMode == true) {
 				System.out.println("Press Enter to continue...");
-				new Scanner(System.in).nextLine();
+				System.out.println("If you would like to terminate this simulation enter [X]");
+				manualSc = new Scanner(System.in);
+				if(manualSc.nextLine().equals("X")){
+					termSim = true;
+				}
 			}
 		}
 		print();
