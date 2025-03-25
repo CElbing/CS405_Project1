@@ -1,5 +1,5 @@
-Scheduling algorithm: SJF
-2025-03-25T16:10:41.047653600
+Scheduling algorithm: RR
+2025-03-25T17:09:47.945483500
 
 New process created: Process [name=penguin, id=0, state= NEW, arrivalTime=2, burst=2, priority=2]
 System time: 0
@@ -19,112 +19,197 @@ System time: 0
 Process added to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=5, priority=2]
 System time: 1
 
-Process added to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2]
-System time: 2
+Process dispatching to CPU: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=5, priority=2]
+System time: 1
 
-Process [name=zebra, id=3, state= RUNNING, arrivalTime=1, burst=4, priority=2] interrupted by Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2] due to smaller burst size. 
+Process added to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2]
 System time: 2
 
 Process added to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=2, priority=2]
 System time: 3
 
-Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=4, priority=2]
-System time: 4
-
 Process added to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
 System time: 4
 
-Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=5, priority=2]
-System time: 6
+Process [name=zebra, id=3, state= RUNNING, arrivalTime=1, burst=1, priority=2] interrupted by 
+Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2] due to end of quantum time. 
+System time: 5
+
+Process dispatching to CPU: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2]
+System time: 5
+
+Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=4, priority=2]
+System time: 7
+
+Process dispatching to CPU: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=2, priority=2]
+System time: 7
 
 Process added to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=5, priority=6]
 System time: 8
 
-Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=7, priority=1]
+Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=5, priority=2]
 System time: 9
 
-Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2]
+Process dispatching to CPU: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
 System time: 9
+
+Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=7, priority=1]
+System time: 12
+
+Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2]
+System time: 12
 
 Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=3, priority=2]
 System time: 13
 
+Process dispatching to CPU: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=5, priority=6]
+System time: 13
+
+Process [name=tiger, id=4, state= RUNNING, arrivalTime=8, burst=2, priority=6] interrupted by 
+Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2] due to end of quantum time. 
+System time: 16
+
+Process dispatching to CPU: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2]
+System time: 16
+
 Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=9, priority=2]
-System time: 14
+System time: 17
 
 Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=1, priority=2]
-System time: 16
+System time: 19
 
 Process entering IO: Process [name=tiger, id=4, state= WAITING, arrivalTime=8, burst=1, priority=6]
 System time: 21
 
-Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1]
+Process dispatching to CPU: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=9, priority=2]
 System time: 21
 
-Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2]
+Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1]
 System time: 24
 
-Process [name=lion, id=1, state= RUNNING, arrivalTime=3, burst=5, priority=2] interrupted by Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2] due to smaller burst size. 
-System time: 25
-
-Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=8, priority=2]
-System time: 25
-
-Process completed IO returning to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6]
-System time: 26
-
-Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=5, priority=2]
+Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2]
 System time: 27
 
-Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=2, priority=2]
-System time: 32
+Process [name=lion, id=1, state= RUNNING, arrivalTime=3, burst=2, priority=2] interrupted by 
+Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1] due to end of quantum time. 
+System time: 28
 
-Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2]
+Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=8, priority=2]
+System time: 28
+
+Process dispatching to CPU: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1]
+System time: 28
+
+Process completed IO returning to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6]
+System time: 29
+
+Process [name=catfish, id=2, state= RUNNING, arrivalTime=4, burst=8, priority=1] interrupted by 
+Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2] due to end of quantum time. 
+System time: 31
+
+Process dispatching to CPU: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2]
+System time: 31
+
+Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=5, priority=2]
 System time: 33
 
-Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2]
+Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=2, priority=2]
 System time: 35
 
-Process [name=penguin, id=0, state= RUNNING, arrivalTime=2, burst=4, priority=2] interrupted by Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2] due to smaller burst size. 
-System time: 36
+Process dispatching to CPU: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=8, priority=2]
+System time: 35
+
+Process [name=penguin, id=0, state= RUNNING, arrivalTime=2, burst=5, priority=2] interrupted by 
+Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6] due to end of quantum time. 
+System time: 38
+
+Process dispatching to CPU: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6]
+System time: 38
+
+Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2]
+System time: 39
+
+Process [name=tiger, id=4, state= RUNNING, arrivalTime=8, burst=6, priority=6] interrupted by 
+Process [name=catfish, id=2, state= RUNNING, arrivalTime=4, burst=8, priority=1] due to end of quantum time. 
+System time: 41
+
+Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2]
+System time: 41
+
+Process [name=catfish, id=2, state= RUNNING, arrivalTime=4, burst=5, priority=1] interrupted by 
+Process [name=penguin, id=0, state= RUNNING, arrivalTime=2, burst=5, priority=2] due to end of quantum time. 
+System time: 44
+
+Process [name=penguin, id=0, state= RUNNING, arrivalTime=2, burst=2, priority=2] interrupted by 
+Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2] due to end of quantum time. 
+System time: 47
+
+Process dispatching to CPU: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2]
+System time: 47
+
+Process [name=zebra, id=3, state= RUNNING, arrivalTime=1, burst=4, priority=2] interrupted by 
+Process [name=tiger, id=4, state= RUNNING, arrivalTime=8, burst=6, priority=6] due to end of quantum time. 
+System time: 50
+
+Process [name=tiger, id=4, state= RUNNING, arrivalTime=8, burst=3, priority=6] interrupted by 
+Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2] due to end of quantum time. 
+System time: 53
+
+Process dispatching to CPU: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2]
+System time: 53
 
 Process terminated: Process [name=lion, id=1, state= TERMINATED, arrivalTime=3, burst=0, priority=2]
 Metrics 
 -------------- 
-TAT: 36 
-CPU WT: 11 
-IO WT:11 
-Finish Time: 39
+TAT: 53 
+CPU WT: 25 
+IO WT:14 
+Finish Time: 56
+
+Process [name=catfish, id=2, state= RUNNING, arrivalTime=4, burst=5, priority=1] interrupted by 
+Process [name=penguin, id=0, state= RUNNING, arrivalTime=2, burst=2, priority=2] due to end of quantum time. 
+System time: 56
 
 Process terminated: Process [name=penguin, id=0, state= TERMINATED, arrivalTime=2, burst=0, priority=2]
 Metrics 
 -------------- 
-TAT: 41 
-CPU WT: 14 
+TAT: 56 
+CPU WT: 29 
 IO WT:14 
-Finish Time: 43
+Finish Time: 58
 
-Process terminated: Process [name=zebra, id=3, state= TERMINATED, arrivalTime=1, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 49 
-CPU WT: 18 
-IO WT:17 
-Finish Time: 50
+Process [name=zebra, id=3, state= RUNNING, arrivalTime=1, burst=3, priority=2] interrupted by 
+Process [name=tiger, id=4, state= RUNNING, arrivalTime=8, burst=3, priority=6] due to end of quantum time. 
+System time: 59
 
 Process terminated: Process [name=tiger, id=4, state= TERMINATED, arrivalTime=8, burst=0, priority=6]
 Metrics 
 -------------- 
-TAT: 51 
+TAT: 54 
 CPU WT: 32 
-IO WT:5 
-Finish Time: 59
+IO WT:8 
+Finish Time: 62
+
+Process [name=catfish, id=2, state= RUNNING, arrivalTime=4, burst=5, priority=1] interrupted by 
+Process [name=zebra, id=3, state= RUNNING, arrivalTime=1, burst=3, priority=2] due to end of quantum time. 
+System time: 62
+
+Process terminated: Process [name=zebra, id=3, state= TERMINATED, arrivalTime=1, burst=0, priority=2]
+Metrics 
+-------------- 
+TAT: 64 
+CPU WT: 30 
+IO WT:20 
+Finish Time: 65
 
 Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=8, priority=1]
 System time: 70
 
 Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
 System time: 79
+
+Process dispatching to CPU: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
+System time: 80
 
 Process terminated: Process [name=catfish, id=2, state= TERMINATED, arrivalTime=4, burst=0, priority=1]
 Metrics 
@@ -139,7 +224,7 @@ System time: 83
 
 Simulation Metric Summary: 
 -----------------
-AVG TAT = 51.2
-AVG WT = 23.2
+AVG TAT = 61.2
+AVG WT = 31.4
 Throughput = 0.060240963855421686
 CPU Utilization = 0.8674698795180723%

@@ -53,7 +53,9 @@ public class Driver {
 		SchedulingAlgorithm scheduler = null;
 		switch (alg) {
 			case "RR":
-				scheduler = new RoundRobin(allProcs, quantumTime);
+				scheduler = new RR(allProcs);
+				scheduler.setQuantum(quantumTime);
+				break;
 			case "FCFS":
 				scheduler = new FCFS(allProcs);
 				break;

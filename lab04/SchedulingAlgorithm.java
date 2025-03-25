@@ -15,6 +15,7 @@ public abstract class SchedulingAlgorithm {
 	protected static PCB prevProcess; // previous process ran by the scheduler
 	protected static int systemTime; // system time or simulation time steps
 	protected boolean manualMode = false;
+	protected int quantum;
 
 	protected boolean enableLogging = true;
 	protected PrintWriter logWriter;
@@ -42,6 +43,10 @@ public abstract class SchedulingAlgorithm {
 
 	public void setManualMode(boolean mode) {
 		this.manualMode = mode;
+	}
+
+	public void setQuantum(int quantum){
+		this.quantum = quantum;
 	}
 
 	@SuppressWarnings("resource")
@@ -84,8 +89,6 @@ public abstract class SchedulingAlgorithm {
 				cpuIdleTime += 1;
 			}
 
-			
-
 			if (vIO.availableProcs() == true) {
 				PCB ioProc = vIO.getReadyProcess();
 				if (!finishedProcs.contains(ioProc) && ioProc.getBurst() > 0) {
@@ -123,6 +126,7 @@ public abstract class SchedulingAlgorithm {
 						logWriter.println();
 						logWriter.println("Process dispatching to CPU: " + curProcess + "\nSystem time: " + systemTime);
 					}
+					
 					CPU.execute(curProcess, 1);
 				}
 			}
@@ -144,6 +148,9 @@ public abstract class SchedulingAlgorithm {
 						logWriter.println();
 						logWriter.println("Process entering IO: " + curProcess + "\nSystem time: " + systemTime);
 						curProcess = null;
+						if(name.equals("RR")){
+							RR.setCount(0);
+						}
 					} else {
 						curProcess.setFinishTime(systemTime);
 						// Add to finished procs

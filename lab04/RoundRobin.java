@@ -18,10 +18,7 @@ public class RoundRobin extends SchedulingAlgorithm {
         int execTime;
         System.out.println("Scheduling Algorithm: " + name);
         while (!queue.isEmpty()) {
-            PCB process = queue.poll();
-
-            if (process.getStartTime() < 0)
-                process.setStartTime(systemTime);
+            PCB process = queue.peek();
 
             execTime = Math.min(quantum, process.getBurst());
             CPU.execute(process, execTime);
@@ -35,6 +32,7 @@ public class RoundRobin extends SchedulingAlgorithm {
             else {
                 process.setFinishTime(systemTime);
                 finishedProcs.add(process);
+                queue.remove(process);
             }
         }
     }
