@@ -10,6 +10,7 @@ public class PCB {
 	private ArrayList<Integer> bursts = new ArrayList<>(); // Array of CPU burst lengths in unit time
 	private int priority; // priority level of the process
 	private int index; // Keeps track of IO burst index;
+
 	// the statistics of process execution
 	private String state;
 	private int ioWaitingTime;
@@ -24,13 +25,14 @@ public class PCB {
 		this.arrivalTime = arrivalTime;
 		this.priority = priority;
 		this.index = 0;
-		this.startTime = -1;
-		this.finishTime = -1;
+		this.startTime = -1; // -1 means not started yet
+		this.finishTime = -1; // -1 means not started yet
 		this.bursts = bursts;
 		this.ioWaitingTime = 0;
 		this.state = "";
 	}
 
+	// return the current burst time at index
 	public int getBurst() {
 		if (index >= 0 && index < bursts.size())
 			return bursts.get(index);
@@ -38,6 +40,7 @@ public class PCB {
 			return 0;
 	}
 
+	// update the burst time at index
 	public void setBurst(int curBurst) {
 		bursts.set(index, curBurst);
 	}
@@ -46,6 +49,7 @@ public class PCB {
 		return this.index;
 	}
 
+	// Increment the index to the next burst within bounds
 	public void setIndex(int i) {
 		if (index >= 0 && index < bursts.size() - 1) {
 			this.index = i;
@@ -100,6 +104,7 @@ public class PCB {
 		return finishTime;
 	}
 
+	// sets finish time and calculates turnaround time
 	public void setFinishTime(int finishTime) {
 		this.finishTime = finishTime;
 		this.turnaroundTime = finishTime - arrivalTime;
@@ -129,11 +134,12 @@ public class PCB {
 		this.ioWaitingTime = waitingTime;
 	}
 
+	// increments the total waiting time by burst
 	public void increaseWaitingTime(int burst) {
-		// Increase the waitingTime variable with burst.
 		this.waitingTime += burst;
 	}
 
+	// increments the total IO waiting time by burst
 	public void increaseIOWaitingTime(int burst) {
 		this.ioWaitingTime += burst;
 	}
@@ -146,6 +152,7 @@ public class PCB {
 		this.state = state;
 	}
 
+	// returns a summary of the processes current state
 	public String toString() {
 		return "Process [name=" + name + ", id=" + id + ", state= " + state
 				+ ", arrivalTime=" + arrivalTime + ", burst=" + bursts.get(index) // Changed to represent current burst

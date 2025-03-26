@@ -4,35 +4,38 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+// abstract class for scheduling algorithms to build from
+// subclasses are FCFS, RR, SJF, and PriorityScheduling
 public abstract class SchedulingAlgorithm {
 	protected String name; // scheduling algorithm name
 	protected List<PCB> allProcs; // the initial list of processes
 	protected List<PCB> readyQueue; // ready queue of ready processes
-	// protected List<PCB> waitQueue;
 	protected List<PCB> finishedProcs; // list of terminated processes
-	protected VirtualIO vIO;
+	protected VirtualIO vIO; // simulated IO device handler
 	protected PCB curProcess; // current selected process by the scheduler
 	protected PCB prevProcess; // previous process ran by the scheduler
+
+	// tracking variables
 	protected int systemTime; // system time or simulation time steps
-	protected boolean manualMode = false;
-	protected boolean termSim = false;
-	protected int quantum;
-	protected Scanner manualSc;
+	protected boolean manualMode = false; // manual mode flag
+	protected boolean termSim = false; // termination flag
+	protected int quantum; // quantum time for RR scheduling
+	protected Scanner manualSc; // scanner for manual mode
 
-	protected boolean enableLogging = true;
+	// logging variables
+	protected boolean enableLogging = true; // enable logging flag
 	protected PrintWriter logWriter;
+	protected double avgTAT = 0.0; // average turnaround time
+	protected int totalTAT = 0; // total turnaround time
+	protected double avgWT = 0.0; // average waiting time
+	protected int totalWT = 0; // total waiting time
+	protected double cpuUtilization = 0.0; // ratio of CPU time to total time
+	protected double throughput = 0.0; // completed processes per unit time
+	protected int cpuIdleTime = 0; // total time CPU was idle
+	protected long responseTime; // total time to complete simulation
+	protected Scanner sc = new Scanner(System.in); // user prompt scanner
 
-	protected double avgTAT = 0.0;
-	protected int totalTAT = 0;
-	protected double avgWT = 0.0;
-	protected int totalWT = 0;
-	protected double cpuUtilization = 0.0;
-	protected double throughput = 0.0;
-	protected int cpuIdleTime = 0;
-	protected long responseTime;
-
-	protected Scanner sc = new Scanner(System.in);
-
+	// constructor
 	public SchedulingAlgorithm(String name, List<PCB> queue) throws FileNotFoundException {
 		this.name = name;
 		this.allProcs = queue;
@@ -44,25 +47,27 @@ public abstract class SchedulingAlgorithm {
 		this.logWriter = enableLogging ? new PrintWriter("simulationResults.txt") : null;
 	}
 
+	// setter methods
 	public void setManualMode(boolean mode) {
 		this.manualMode = mode;
 	}
 
-	public void setQuantum(int quantum){
+	public void setQuantum(int quantum) {
 		this.quantum = quantum;
 	}
 
-
 	public void schedule() {
 		long startResponseTime = System.currentTimeMillis();
-		// - Print the name of the scheduling algorithm
+
+		// Print the name of the scheduling algorithm
 		System.out.println("Scheduling algorithm: " + name);
 		logWriter.println("Scheduling algorithm: " + name);
 		logWriter.println(LocalDateTime.now());
 
-		// - while (allProcs is not empty or readyQueue is not empty) {
+		// main sim loop. Makes sure all processes are completed before ending, ready
+		// queue is empty, IO is idle, and VIO finished queue is empty
 		while (!allProcs.isEmpty() || !readyQueue.isEmpty() || !vIO.isIdle() || !vIO.getFinishedQueue().isEmpty()) {
-			if(termSim == true){
+			if (termSim == true) { // checking termination flag status
 				break;
 			}
 			// - Print the current system time
@@ -88,14 +93,15 @@ public abstract class SchedulingAlgorithm {
 			// - curProcess = pickNextProcess() //call pickNextProcess() to choose next
 			// process
 
+			// pick the next avaliable process
 			if (!readyQueue.isEmpty()) {
 				prevProcess = curProcess;
 				curProcess = pickNextProcess();
-			} 
-			else{
+			} else {
 				cpuIdleTime += 1;
 			}
 
+			// handling fished IO processes returning to the ready queue
 			if (vIO.availableProcs() == true) {
 				PCB ioProc = vIO.getReadyProcess();
 				if (!finishedProcs.contains(ioProc) && ioProc.getBurst() > 0) {
@@ -108,98 +114,121 @@ public abstract class SchedulingAlgorithm {
 							+ systemTime);
 				}
 			}
-
+			// increment IO wait time for processes in the IO
 			for (PCB proc : vIO.getQueue()) {
 				if (proc != vIO.getReadyProcess()) {
 					proc.increaseIOWaitingTime(1);
 				}
 			}
-			// - call print() to print simulation events: CPU, ready queue, ..
+
+			// call print() to print simulation events: CPU, ready queue, ..
 			print();
-			// - update the start time of the selected process (curProcess)
+			// update the start time of the selected process (curProcess)
 			if (curProcess != null) {
 				if (curProcess.getStartTime() < 0)
 					curProcess.setStartTime(systemTime);
 			}
-			// - Call CPU.execute() to let the CPU execute 1 CPU unit time of curProcess
+
+			// Call CPU.execute() to let the CPU execute 1 CPU unit time of curProcess
 			if (!vIO.isIdle()) {
 				VirtualIO.executeIO();
 			}
 
+			// if the current process is not null and the ready queue is not empty
 			if (curProcess != null) {
 				if (!readyQueue.isEmpty()) {
-					if(!curProcess.getState().equals("RUNNING")){
+					if (!curProcess.getState().equals("RUNNING")) {
 						System.out.println("Process dispatching to CPU: " + curProcess);
 						logWriter.println();
 						logWriter.println("Process dispatching to CPU: " + curProcess + "\nSystem time: " + systemTime);
 					}
-					
+
 					CPU.execute(curProcess, 1);
 				}
 			}
 
-			// - Increase 1 to the waiting time of other processes in the ready queue
+			// Increase 1 to the waiting time of other processes in the ready queue
 			for (PCB proc : readyQueue)
 				if (proc != curProcess)
 					proc.increaseWaitingTime(1);
-			// - Increase systemTime by 1
+
+			// Increase systemTime by 1
 			systemTime += 1;
+
 			// - Check if the remaining CPU burst of curProcess = 0
 			if (curProcess != null) {
 				if (curProcess.getBurst() == 0) {
-					if (curProcess.getIndex() < curProcess.getBurstArray().size() - 1) {
-						curProcess.setIndex(curProcess.getIndex() + 1);
+					if (curProcess.getIndex() < curProcess.getBurstArray().size() - 1) { // check if there are more
+																							// bursts remaining
+						curProcess.setIndex(curProcess.getIndex() + 1); // mve to the next burst
 						readyQueue.remove(curProcess);
+
+						// remove the process from the ready queue and add it to the IO queue
 						vIO.addProcess(curProcess);
 						System.out.println("Process entering IO: " + curProcess);
-						logWriter.println();
+
+						logWriter.println(); // logging
 						logWriter.println("Process entering IO: " + curProcess + "\nSystem time: " + systemTime);
-						curProcess = null;
-						if(name.equals("RR")){
+
+						curProcess = null; // clear the current process so the cpu can get a new one
+
+						if (name.equals("RR")) { // if RR then reset the counter
 							RR.setCount(0);
 						}
 					} else {
-						curProcess.setFinishTime(systemTime);
-						// Add to finished procs
-						curProcess.setState("TERMINATED");
-						finishedProcs.add(curProcess);
-						readyQueue.remove(curProcess);
+						// no more bursts remaining
+						curProcess.setFinishTime(systemTime); // mark finish time
+						curProcess.setState("TERMINATED"); // update state
+						finishedProcs.add(curProcess); // add to the list of completed processes
+						readyQueue.remove(curProcess); // renove from the ready queue
+
+						// generate summary metrics for the process
 						String curProcessMetric = curProcess + "\nMetrics \n-------------- \nTAT: "
 								+ curProcess.getTurnaroundTime() +
 								" \nCPU WT: " + curProcess.getWaitingTime() +
 								" \nIO WT:" + curProcess.getIOWaitingTime() +
 								" \nFinish Time: " + curProcess.getFinishTime();
+
+						// Outout and log termincation and metics
 						System.out.println("Process terminated: " + curProcessMetric);
 						logWriter.println();
 						logWriter.println("Process terminated: " + curProcessMetric);
 						System.out.println();
-						totalWT += curProcess.getWaitingTime();
-						totalTAT += curProcess.getTurnaroundTime();
-						curProcess = null;
+
+						totalWT += curProcess.getWaitingTime(); // update total waiting time
+						totalTAT += curProcess.getTurnaroundTime(); // update total turnaround time
+
+						curProcess = null; // clear the CPU
 					}
 				}
 			}
 
-			if (manualMode == true) {
+			if (manualMode == true) { // if manual mode is enabled pause after each line
 				System.out.println("Press Enter to continue...");
 				System.out.println("If you would like to terminate this simulation enter [X]");
-				manualSc = new Scanner(System.in);
-				if(manualSc.nextLine().equals("X")){
+
+				manualSc = new Scanner(System.in); // creating its own scanner to avoid conflicts
+				if (manualSc.nextLine().equals("X")) {
 					termSim = true;
 				}
 			}
 		}
+
+		//print final snapshot
 		print();
 		System.out.println("All processes have been completed.");
 		System.out.println("");
 
-		avgTAT = (double) totalTAT/finishedProcs.size();
-		avgWT = (double) totalWT/finishedProcs.size();
-		throughput = (double) finishedProcs.size()/systemTime;
-		cpuUtilization = (double) (systemTime - cpuIdleTime)/systemTime;
-		long endResponseTime = System.currentTimeMillis();
-		responseTime = endResponseTime - startResponseTime;
+		// calculate simulation metrics
+		avgTAT = (double) totalTAT / finishedProcs.size(); // calculate average turnaround time
+		avgWT = (double) totalWT / finishedProcs.size(); // calculate average waiting time
+		throughput = (double) finishedProcs.size() / systemTime; // calculate throughput
+		cpuUtilization = (double) (systemTime - cpuIdleTime) / systemTime; // calculate CPU utilization
 
+		long endResponseTime = System.currentTimeMillis(); // get end time
+		responseTime = endResponseTime - startResponseTime; // calculate response time
+
+		// print blocks
 		System.out.println("Simulation Metric Summary: \n-----------------");
 		System.out.println("AVG TAT = " + avgTAT);
 		System.out.println("AVG WT = " + avgWT);
@@ -207,6 +236,7 @@ public abstract class SchedulingAlgorithm {
 		System.out.println("CPU Utilization = " + cpuUtilization + "%");
 		System.out.println("Response Time = " + responseTime);
 
+		// log blocks
 		logWriter.println();
 		logWriter.println("All processes have been completed. \nSystem time: " + systemTime);
 		logWriter.println();
@@ -220,21 +250,16 @@ public abstract class SchedulingAlgorithm {
 
 		System.out.println();
 		String saveResults = "";
-		System.out.println("Would you like to save the execution logs and system performance metrics for this simulation? [Y/N]");
+		System.out.println(
+				"Would you like to save the execution logs and system performance metrics for this simulation? [Y/N]");
 		System.out.print("");
 		saveResults = sc.nextLine();
 
-		if(saveResults.equals("Y")){
+		if (saveResults.equals("Y")) {
 			System.out.println("File succesfully saved as: " + logFile);
+		} else {
+			enableLogging = false; // disable logging
 		}
-		else{
-			enableLogging = false;
-		}
-		/*sc.close();
-		if(manualMode == true){
-			manualSc.close();
-		}
-		logWriter.close();*/
 	}
 
 	// Selects the next task using the appropriate scheduling algorithm
