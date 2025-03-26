@@ -208,7 +208,7 @@ public abstract class SchedulingAlgorithm {
 				System.out.println("If you would like to terminate this simulation enter [X]");
 
 				manualSc = new Scanner(System.in); // creating its own scanner to avoid conflicts
-				if (manualSc.nextLine().equals("X")) {
+				if (manualSc.nextLine().equalsIgnoreCase("X")) {
 					termSim = true;
 				}
 			}
@@ -255,7 +255,7 @@ public abstract class SchedulingAlgorithm {
 		System.out.print("");
 		saveResults = sc.nextLine();
 
-		if (saveResults.equals("Y")) {
+		if (saveResults.equalsIgnoreCase("Y")) {
 			System.out.println("File succesfully saved as: " + logFile);
 		} else {
 			enableLogging = false; // disable logging

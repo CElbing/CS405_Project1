@@ -1,5 +1,5 @@
-Scheduling algorithm: Priority Scheduling
-2025-03-26T14:03:24.781542900
+Scheduling algorithm: FCFS
+2025-03-26T14:38:55.943891600
 
 New process created: Process [name=penguin, id=0, state= NEW, arrivalTime=2, burst=2, priority=2]
 System time: 0
@@ -19,128 +19,19 @@ System time: 0
 Process added to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=5, priority=2]
 System time: 1
 
+Process dispatching to CPU: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=5, priority=2]
+System time: 1
+
 Process added to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=2, priority=2]
 System time: 2
 
-Process added to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=2, priority=2]
-System time: 3
-
-Process added to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
-System time: 4
-
-Process [name=zebra, id=3, state= RUNNING, arrivalTime=1, burst=2, priority=2] interrupted by Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1] due to higher priority. 
-System time: 4
-
-Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=7, priority=1]
-System time: 7
-
-Process added to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=5, priority=6]
-System time: 8
-
-Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=3, priority=2]
-System time: 9
-
-Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=4, priority=2]
-System time: 11
-
-Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=5, priority=2]
-System time: 13
-
-Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1]
-System time: 15
-
-Process [name=tiger, id=4, state= RUNNING, arrivalTime=8, burst=2, priority=6] interrupted by Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=11, priority=1] due to higher priority. 
-System time: 16
-
-Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=2, priority=2]
-System time: 18
-
-Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=3, priority=2]
-System time: 22
-
-Process entering IO: Process [name=catfish, id=2, state= WAITING, arrivalTime=4, burst=8, priority=1]
-System time: 27
-
-Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=9, priority=2]
-System time: 27
-
-Process entering IO: Process [name=zebra, id=3, state= WAITING, arrivalTime=1, burst=5, priority=2]
-System time: 29
-
-Process entering IO: Process [name=penguin, id=0, state= WAITING, arrivalTime=2, burst=1, priority=2]
-System time: 32
-
-Process completed IO returning to ready queue: Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1]
-System time: 36
-
-Process [name=lion, id=1, state= RUNNING, arrivalTime=3, burst=4, priority=2] interrupted by Process [name=catfish, id=2, state= READY, arrivalTime=4, burst=3, priority=1] due to higher priority. 
-System time: 37
-
-Process terminated: Process [name=catfish, id=2, state= TERMINATED, arrivalTime=4, burst=0, priority=1]
-Metrics 
--------------- 
-TAT: 36 
-CPU WT: 2 
-IO WT:17 
-Finish Time: 40
-
-Process completed IO returning to ready queue: Process [name=zebra, id=3, state= READY, arrivalTime=1, burst=7, priority=2]
-System time: 41
-
-Process completed IO returning to ready queue: Process [name=penguin, id=0, state= READY, arrivalTime=2, burst=8, priority=2]
-System time: 42
-
-Process entering IO: Process [name=lion, id=1, state= WAITING, arrivalTime=3, burst=2, priority=2]
-System time: 44
-
-Process completed IO returning to ready queue: Process [name=lion, id=1, state= READY, arrivalTime=3, burst=3, priority=2]
-System time: 47
-
-Process terminated: Process [name=zebra, id=3, state= TERMINATED, arrivalTime=1, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 50 
-CPU WT: 15 
-IO WT:21 
-Finish Time: 51
-
-Process terminated: Process [name=penguin, id=0, state= TERMINATED, arrivalTime=2, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 57 
-CPU WT: 23 
-IO WT:21 
-Finish Time: 59
-
-Process terminated: Process [name=lion, id=1, state= TERMINATED, arrivalTime=3, burst=0, priority=2]
-Metrics 
--------------- 
-TAT: 59 
-CPU WT: 28 
-IO WT:17 
-Finish Time: 62
-
-Process entering IO: Process [name=tiger, id=4, state= WAITING, arrivalTime=8, burst=1, priority=6]
-System time: 64
-
-Process completed IO returning to ready queue: Process [name=tiger, id=4, state= READY, arrivalTime=8, burst=9, priority=6]
-System time: 66
-
-Process terminated: Process [name=tiger, id=4, state= TERMINATED, arrivalTime=8, burst=0, priority=6]
-Metrics 
--------------- 
-TAT: 68 
-CPU WT: 52 
-IO WT:2 
-Finish Time: 76
-
 All processes have been completed. 
-System time: 76
+System time: 3
 
 Simulation Metric Summary: 
 -----------------
-AVG TAT = 54.0
-AVG WT = 24.0
-Throughput = 0.06578947368421052
-CPU Utilization = 0.9473684210526315%
-Response Time = 155
+AVG TAT = NaN
+AVG WT = NaN
+Throughput = 0.0
+CPU Utilization = 0.6666666666666666%
+Response Time = 5885
