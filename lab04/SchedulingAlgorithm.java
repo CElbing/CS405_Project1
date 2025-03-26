@@ -11,9 +11,9 @@ public abstract class SchedulingAlgorithm {
 	// protected List<PCB> waitQueue;
 	protected List<PCB> finishedProcs; // list of terminated processes
 	protected VirtualIO vIO;
-	protected static PCB curProcess; // current selected process by the scheduler
-	protected static PCB prevProcess; // previous process ran by the scheduler
-	protected static int systemTime; // system time or simulation time steps
+	protected PCB curProcess; // current selected process by the scheduler
+	protected PCB prevProcess; // previous process ran by the scheduler
+	protected int systemTime; // system time or simulation time steps
 	protected boolean manualMode = false;
 	protected boolean termSim = false;
 	protected int quantum;
@@ -52,7 +52,7 @@ public abstract class SchedulingAlgorithm {
 		this.quantum = quantum;
 	}
 
-	@SuppressWarnings("resource")
+
 	public void schedule() {
 		long startResponseTime = System.currentTimeMillis();
 		// - Print the name of the scheduling algorithm
@@ -222,12 +222,7 @@ public abstract class SchedulingAlgorithm {
 		String saveResults = "";
 		System.out.println("Would you like to save the execution logs and system performance metrics for this simulation? [Y/N]");
 		System.out.print("");
-		do{
-			System.out.print("Please enter [Y/N]: ");
-			saveResults = sc.nextLine();
-		}while(saveResults.equals("") || (!saveResults.equals("Y") && !saveResults.equals("N")));
-		
-		
+		saveResults = sc.nextLine();
 
 		if(saveResults.equals("Y")){
 			System.out.println("File succesfully saved as: " + logFile);
@@ -235,7 +230,11 @@ public abstract class SchedulingAlgorithm {
 		else{
 			enableLogging = false;
 		}
-		logWriter.close();
+		/*sc.close();
+		if(manualMode == true){
+			manualSc.close();
+		}
+		logWriter.close();*/
 	}
 
 	// Selects the next task using the appropriate scheduling algorithm

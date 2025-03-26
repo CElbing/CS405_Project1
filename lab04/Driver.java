@@ -4,13 +4,18 @@ import java.io.*;
 import java.util.*;
 
 public class Driver {
-	public static void main(String[] args) throws FileNotFoundException {
-		int quantumTime = 0;
-		// Scanner sc = new Scanner(new File("src/proc.txt"));
-		Scanner paramScanner = new Scanner(System.in);
-		System.out.println("Enter the file path of desired scenario file followed by scheduling parameters");
-		String filePath = paramScanner.nextLine();
+	private static Scanner paramScanner;
+	private static Scanner sc;
+	private static Scanner simInput;
 
+	public static void closeScanners(){
+		paramScanner.close();
+		sc.close();
+	}
+
+	public static void executeDriver(String filePath) throws FileNotFoundException{
+		int quantumTime = 0;
+		paramScanner = new Scanner(System.in);
 		System.out.println("Choose scheduling algoritm (FCFS, PS, SJF, RR)");
 		String alg = paramScanner.nextLine();
 
@@ -22,7 +27,7 @@ public class Driver {
 		System.out.println("Choose running mode number (0 = auto, 1 = manual)");
 		int runningMode = paramScanner.nextInt();
 
-		Scanner sc = new Scanner(new File(filePath));
+		sc = new Scanner(new File(filePath));
 		String line;
 		int id = 0;
 		ArrayList<PCB> allProcs = new ArrayList<>(); // list of processes
@@ -74,8 +79,24 @@ public class Driver {
 		} else {
 			scheduler.setManualMode(false);
 		}
+
 		scheduler.schedule();
-		sc.close();
-		paramScanner.close();
+	}
+
+	public static void main(String[] args) throws FileNotFoundException {
+		simInput = new Scanner(System.in);
+		boolean termSim = false;
+		System.out.println("Proivide the file path to desired scenario file:");
+		String filePath = simInput.nextLine();
+		do{
+			executeDriver(filePath);
+			System.out.println("Try another algorithm? [Y/N]");
+			String response = simInput.nextLine();
+			if(response.equalsIgnoreCase("N")){
+				termSim = true;
+			}
+		}while(termSim != true);
+		closeScanners();
+		simInput.close();
 	}
 }
