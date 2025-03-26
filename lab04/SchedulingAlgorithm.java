@@ -260,6 +260,8 @@ public abstract class SchedulingAlgorithm {
 		} else {
 			enableLogging = false; // disable logging
 		}
+
+		logWriter.close();
 	}
 
 	// Selects the next task using the appropriate scheduling algorithm
