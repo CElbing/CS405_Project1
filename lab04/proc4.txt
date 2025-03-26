@@ -1,0 +1,5 @@
+doodle 1 3 2 4 9 4
+trout 3 2 2 5 4 6 
+pike 1 5 3 7 5 7
+mallard 9 1 5 3 7 8
+bee 1 4 3 7 2 4
