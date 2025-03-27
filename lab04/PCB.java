@@ -10,6 +10,7 @@ public class PCB {
 	private ArrayList<Integer> bursts = new ArrayList<>(); // Array of CPU burst lengths in unit time
 	private int priority; // priority level of the process
 	private int index; // Keeps track of IO burst index;
+	private int runningCount; //used to determine the response time of a process, makes sure it is first run of process.
 
 	// the statistics of process execution
 	private String state;
@@ -30,6 +31,7 @@ public class PCB {
 		this.bursts = bursts;
 		this.ioWaitingTime = 0;
 		this.state = "";
+		this.runningCount = 0;
 	}
 
 	// return the current burst time at index
@@ -38,6 +40,16 @@ public class PCB {
 			return bursts.get(index);
 		else
 			return 0;
+	}
+
+	//getter for running count
+	public int getRunningCount(){
+		return this.runningCount;
+	}
+
+	//setter for running count
+	public void setRunningCount(int runningCount){
+		this.runningCount = runningCount;
 	}
 
 	// update the burst time at index

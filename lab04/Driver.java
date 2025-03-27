@@ -101,16 +101,20 @@ public class Driver {
 		// Ask user for file path and save to a string
 		System.out.println("Proivide the file path to desired scenario file:");
 		String filePath = simInput.nextLine();
+		String response = "";
 
 		// Do while loop to allow user to run multiple simulations while forcing them to
 		// proform atleast one.
 		do {
 			executeDriver(filePath);
-			System.out.println("Try another algorithm? [Y/N]");
-			String response = simInput.nextLine();
+			while(!response.equals("Y") && !response.equals("N")){
+				System.out.println("Try another algorithm? [Y/N]");
+				response = simInput.nextLine();
+			}
 			if (response.equalsIgnoreCase("N")) {
 				termSim = true;
 			}
+			response = "";
 		} while (termSim != true); // while the user does not enter "N"
 
 		// Clean up resources
