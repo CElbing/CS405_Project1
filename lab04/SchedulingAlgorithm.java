@@ -66,7 +66,7 @@ public abstract class SchedulingAlgorithm {
 
 		// main sim loop. Makes sure all processes are completed before ending, ready
 		// queue is empty, IO is idle, and VIO finished queue is empty
-		while (!allProcs.isEmpty() || !readyQueue.isEmpty() || !vIO.isIdle() || !vIO.getFinishedQueue().isEmpty()) {
+		while (!allProcs.isEmpty() || !readyQueue.isEmpty() || !vIO.isIdle()) {
 			if (termSim == true) { // checking termination flag status
 				break;
 			}
